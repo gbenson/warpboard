@@ -9,12 +9,13 @@ from __future__ import unicode_literals
 import math
 
 class Peg(object):
-    def __init__(self, x, y):
+    def __init__(self, x, y, key=None):
         self.x = x
         self.y = y
+        self.key = key
 
     def __str__(self):
-        return "Peg(%s, %s)" % (self.x, self.y)
+        return "Peg((%s, %s), key=%s)" % (self.x, self.y, self.key)
 
     def distance_from(self, other):
         dx = self.x - other.x
@@ -29,7 +30,7 @@ class WarpBoard(object):
     XBAR_RAIL_PEG_SEP = 45
 
     def __init__(self):
-        self.pegs = []
+        self.pegs = {}
         x, y = self.XBAR_PEGS_SEP*1.5, 0
         for i in range(4):
             self._add_peg(x, y)
@@ -42,12 +43,13 @@ class WarpBoard(object):
             y += self.RAIL_PEGS_SEP
 
     def _add_peg(self, *args):
-        print("peg %2d: %s" % (len(self.pegs), args))
-        self.pegs.append(Peg(*args))
+        key = "%x" % len(self.pegs)
+        print("peg %s: %s" % (key, args))
+        self.pegs[key] = Peg(*args, key=key)
 
     def path_length(self, *path):
         if len(path) == 1 and type(path[0]) == type(""):
-            path = tuple(int(c, 16) for c in path[0])
+            path = path[0]
         result = 0
         path = [self.pegs[i] for i in path]
         for ab in zip(path[:-1], path[1:]):

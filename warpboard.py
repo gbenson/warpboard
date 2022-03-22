@@ -17,10 +17,26 @@ class Peg(object):
     def __str__(self):
         return "Peg((%s, %s), key=%s)" % (self.x, self.y, self.key)
 
+    @property
+    def _length(self):
+        return math.sqrt(self.x*self.x + self.y*self.y)
+
+    @property
+    def _unit(self):
+        scale = 1 / self._length
+        return Peg(self.x * scale, self.y * scale)
+
+    def _dot(self, other):
+        return self.x*other.x + self.y*other.y
+
     def distance_from(self, other):
-        dx = self.x - other.x
-        dy = self.y - other.y
-        return math.sqrt(dx*dx + dy*dy)
+        ab = Peg(self.x - other.x, self.y - other.y)
+        return ab._length
+
+    def angle_around(self, a, c):
+        ab = Peg(self.x - a.x, self.y - a.y)
+        bc = Peg(c.x - self.x, c.y - self.y)
+        return math.acos(ab._unit._dot(bc._unit))
 
 class WarpBoard(object):
     OUTER_WIDTH = 689
@@ -49,12 +65,17 @@ class WarpBoard(object):
 
     def path_length(self, *path):
         if len(path) == 1 and type(path[0]) == type(""):
-            path = path[0]
+            path = tuple(path[0])
         result = 0
         path = [self.pegs[i] for i in path]
-        for ab in zip(path[:-1], path[1:]):
-            a, b = ab
+        for abc in zip(path[:-1], path[1:], path[2:] + [path[-2]]):
+            a, b, c = abc
+            print(a.key, "->", b.key, "->", c.key, end="; ")
             result += b.distance_from(a)
+            #print("result =", result)
+            angle = b.angle_around(a, c)
+            #print("angle = %.0fdeg" % (angle*180/math.pi))
+            result += 6*angle
             print("result =", result)
         return result
 

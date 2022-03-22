@@ -81,9 +81,9 @@ class WarpBoard(object):
 
 def main():
     b = WarpBoard()
-    #print("total =", b.path_length("01236587a9cbd"))   # 5.72m
-    print("total =", b.path_length("01236789abc"))      # 4.87m
-    #print("total =", b.path_length("0123547698badc"))  # 6.53m
+    #print("total =", b.path_length("01236587a9cbd"))   # 5.72m -> 5.89m
+    #print("total =", b.path_length("01236789abc"))     # 4.87m -> 5.01m
+    print("total =", b.path_length("0123547698badc"))   # 6.53m -> 6.72m
 
 if __name__ == "__main__" or True:
     if "sys" not in locals():

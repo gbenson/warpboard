@@ -141,5 +141,13 @@ def main():
         print(f"  {target}")
         print()
 
+    print("Potential 1m warps:")
+    for path in (
+            "32104c",
+            "468ac1",
+            "468ac2",
+            ):
+        print(f"  {path}: {wb.path_length(path)/1000:.3f}m")
+
 if __name__ == "__main__":
     main()

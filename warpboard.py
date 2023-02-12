@@ -7,7 +7,7 @@ class Peg:
         self.key = key
 
     def __str__(self):
-        return "Peg((%s, %s), key=%s)" % (self.x, self.y, self.key)
+        return f"Peg(({self.x}, {self.y}), key={self.key!r})"
 
     @property
     def _length(self):

@@ -36,6 +36,7 @@ class WarpBoard:
     XBAR_PEGS_SEP = 110
     RAIL_PEGS_SEP = 95
     XBAR_RAIL_PEG_SEP = 45
+    PEG_RADIUS = 6
 
     def __init__(self):
         self.pegs = {}
@@ -67,7 +68,7 @@ class WarpBoard:
             #print("result =", result)
             angle = b.angle_around(a, c)
             #print("angle = %.0fdeg" % (angle*180/math.pi))
-            result += 6*angle
+            result += self.PEG_RADIUS*angle
             print("result =", result)
         return result
 

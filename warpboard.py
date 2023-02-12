@@ -31,25 +31,8 @@ class Peg:
         return math.acos(ab._unit._dot(bc._unit))
 
 class WarpBoard:
-    OUTER_WIDTH = 689
-    RAIL_THICKNESS = 22
-    XBAR_PEGS_SEP = 110
-    RAIL_PEGS_SEP = 95
-    XBAR_RAIL_PEG_SEP = 45
-    PEG_RADIUS = 6
-
     def __init__(self):
         self.pegs = {}
-        x, y = self.XBAR_PEGS_SEP*1.5, 0
-        for i in range(4):
-            self._add_peg(x, y)
-            x -= self.XBAR_PEGS_SEP
-        x = (self.OUTER_WIDTH - self.RAIL_THICKNESS)/2
-        y = self.XBAR_RAIL_PEG_SEP
-        for i in range(5):
-            self._add_peg(x, y)
-            self._add_peg(-x, y)
-            y += self.RAIL_PEGS_SEP
 
     def _add_peg(self, *args):
         key = "%x" % len(self.pegs)
@@ -72,15 +55,43 @@ class WarpBoard:
             print("result =", result)
         return result
 
-#  3 2 1 0
-# 5       4
-# 7       6
-# 9       8
-# b       a
-# d       c
+class Ashford60cmRHLWB(WarpBoard):
+    """The warping board you get with pegs in the holes in the bottom of
+    an Ashford 60cm rigid heddle loom.  Peg locations are as follows:
+
+       3 2 1 0
+      5       4
+      7       6
+      9       8
+      b       a
+      d       c
+
+    The booklet that came with the loom, "Learn to weave on the Rigid
+    Heddle Loom," indicates peg 0 to be the starting peg, but peg 3 is
+    likely more natural if you're right-handed. """
+
+    OUTER_WIDTH = 689
+    RAIL_THICKNESS = 22
+    XBAR_PEGS_SEP = 110
+    RAIL_PEGS_SEP = 95
+    XBAR_RAIL_PEG_SEP = 45
+    PEG_RADIUS = 6
+
+    def __init__(self):
+        super().__init__()
+        x, y = self.XBAR_PEGS_SEP*1.5, 0
+        for i in range(4):
+            self._add_peg(x, y)
+            x -= self.XBAR_PEGS_SEP
+        x = (self.OUTER_WIDTH - self.RAIL_THICKNESS)/2
+        y = self.XBAR_RAIL_PEG_SEP
+        for i in range(5):
+            self._add_peg(x, y)
+            self._add_peg(-x, y)
+            y += self.RAIL_PEGS_SEP
 
 def main():
-    b = WarpBoard()
+    b = Ashford60cmRHLWB()
     #print("total =", b.path_length("01236587a9cbd"))   # 5.72m -> 5.89m
     #print("total =", b.path_length("01236789abc"))     # 4.87m -> 5.01m
     print("total =", b.path_length("012356789abc"))     # 5.20m -> 5.35m

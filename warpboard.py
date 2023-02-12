@@ -31,7 +31,9 @@ class Peg:
     def angle_around(self, a, c):
         ab = Peg(self.x - a.x, self.y - a.y)
         bc = Peg(c.x - self.x, c.y - self.y)
-        return math.acos(ab._unit._dot(bc._unit))
+        dot_product = ab._unit._dot(bc._unit)
+        # Clamp before acos to mitigate rounding errors
+        return math.acos(min(max(dot_product, 1), -1))
 
 class WarpBoard:
     def __init__(self):

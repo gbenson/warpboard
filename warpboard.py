@@ -1,14 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-
 import math
 
-class Peg(object):
+class Peg:
     def __init__(self, x, y, key=None):
         self.x = x
         self.y = y
@@ -38,7 +30,7 @@ class Peg(object):
         bc = Peg(c.x - self.x, c.y - self.y)
         return math.acos(ab._unit._dot(bc._unit))
 
-class WarpBoard(object):
+class WarpBoard:
     OUTER_WIDTH = 689
     RAIL_THICKNESS = 22
     XBAR_PEGS_SEP = 110
@@ -93,8 +85,5 @@ def main():
     print("total =", b.path_length("012356789abc"))     # 5.20m -> 5.35m
     #print("total =", b.path_length("0123547698badc"))  # 6.53m -> 6.72m
 
-if __name__ == "__main__" or True:
-    if "sys" not in locals():
-        import sys
-    assert sys.version_info >= (3,)
+if __name__ == "__main__":
     main()

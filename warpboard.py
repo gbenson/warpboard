@@ -96,11 +96,36 @@ class Ashford60cmRHLWB(WarpBoard):
 
 def main():
     #logging.basicConfig(level=logging.DEBUG)
-    b = Ashford60cmRHLWB()
-    #print("total =", b.path_length("01236587a9cbd"))   # 5.72m -> 5.89m
-    #print("total =", b.path_length("01236789abc"))     # 4.87m -> 5.01m
-    print("total =", b.path_length("012356789abc"))     # 5.20m -> 5.35m
-    #print("total =", b.path_length("0123547698badc"))  # 6.53m -> 6.72m
+    wb = Ashford60cmRHLWB()
+
+    print()
+    for info, path, target in (
+            ("First Twister scarves warp, 2022-02-11",
+             "01236789abc",
+             "Measured length: 5.00m (guide string visible)",
+             ),
+            ("First Twister cowls warp, 2022-03-21",
+             "012356789abc",
+             "Desired length: 5.25m (idk if I measured this)",
+             ),
+            ("Longest possible warp, 2022-03-22",
+             "0123547698badc",
+             "Measured length: 6.75m (guide string visible)",
+             ),
+            ):
+        spr = wb.PEG_RADIUS
+        wb.PEG_RADIUS = 0
+        try:
+            length = wb.path_length(path)
+        finally:
+            wb.PEG_RADIUS = spr
+        print(f"{info}:")
+        print(f'  Path: "{path}"')
+        print(f"  With PEG_RADIUS = 0mm: {length/1000:.2f}m")
+        length = wb.path_length(path)
+        print(f"  With PEG_RADIUS = {spr}mm: {length/1000:.2f}m")
+        print(f"  {target}")
+        print()
 
 if __name__ == "__main__":
     main()

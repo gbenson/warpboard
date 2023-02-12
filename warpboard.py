@@ -1,4 +1,7 @@
+import logging
 import math
+
+logger = logging.getLogger(__name__)
 
 class Peg:
     def __init__(self, x, y, key=None):
@@ -35,9 +38,9 @@ class WarpBoard:
         self.pegs = {}
 
     def _add_peg(self, *args):
-        key = "%x" % len(self.pegs)
-        print("peg %s: %s" % (key, args))
-        self.pegs[key] = Peg(*args, key=key)
+        key = f"{len(self.pegs):x}"
+        peg = self.pegs[key] = Peg(*args, key=key)
+        logger.debug(f"{self.__class__.__name__}: peg {key}: {peg}")
 
     def path_length(self, *path):
         if len(path) == 1 and type(path[0]) == type(""):
@@ -46,13 +49,14 @@ class WarpBoard:
         path = [self.pegs[i] for i in path]
         for abc in zip(path[:-1], path[1:], path[2:] + [path[-2]]):
             a, b, c = abc
-            print(a.key, "->", b.key, "->", c.key, end="; ")
+            logmsg = [f"{a.key} -> {b.key} -> {c.key}; result = {result:.0f}"]
             result += b.distance_from(a)
-            #print("result =", result)
+            logmsg.append(f"-> {result:.0f}")
             angle = b.angle_around(a, c)
-            #print("angle = %.0fdeg" % (angle*180/math.pi))
             result += self.PEG_RADIUS*angle
-            print("result =", result)
+            logmsg.append(f"-> {result:.0f}")
+            logger.debug(" ".join(logmsg))
+        logger.debug(f"total warp length = {result}mm")
         return result
 
 class Ashford60cmRHLWB(WarpBoard):
@@ -91,6 +95,7 @@ class Ashford60cmRHLWB(WarpBoard):
             y += self.RAIL_PEGS_SEP
 
 def main():
+    #logging.basicConfig(level=logging.DEBUG)
     b = Ashford60cmRHLWB()
     #print("total =", b.path_length("01236587a9cbd"))   # 5.72m -> 5.89m
     #print("total =", b.path_length("01236789abc"))     # 4.87m -> 5.01m

@@ -100,6 +100,18 @@ def main():
 
     print()
     for info, path, target in (
+            ("Fat houndstooth scarf, 2021-05-18",
+             "01235746bd",
+             "Measured length: 2.2m",
+             ),
+            ("Slightly alpaca scarf, 2021-05-31",
+             "0123578bd",
+             "Measured length: 2.1m",
+             ),
+            ("Indigo zebra scarf, 2021-07-06",
+             "01235769d",
+             "Measured length: 2.2m",
+             ),
             ("First Twister scarves warp, 2022-02-11",
              "01236789abc",
              "Measured length: 5.00m (guide string visible)",

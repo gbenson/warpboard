@@ -126,6 +126,10 @@ def main():
              "0123547698badc",
              "Measured length: 6.75m (guide string visible)",
              ),
+            ("1m warp for Chromebook sleeve, 2023-02-13",
+             "532104c",
+             "Measured length: 98cm?",
+             ),
             ):
         spr = wb.PEG_RADIUS
         wb.PEG_RADIUS = 0
@@ -141,6 +145,7 @@ def main():
         print(f"  {target}")
         print()
 
+    print("---")
     print("Potential 1m warps:")
     for path in (
             "32104c",

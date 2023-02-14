@@ -1,5 +1,5 @@
-Warping Board Calculator
-========================
+Warping board path length calculator
+====================================
 
 This repo is the beginnings of a tool to calculate the lengths of
 paths on a warping board.  What's a warping board?  It's a tool used
